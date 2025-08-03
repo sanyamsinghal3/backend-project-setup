@@ -1,18 +1,27 @@
 // this code for env file whole app, but is old new is with import below
 //##require('dotenv').config({path:'./env'});
 //## new method
-import dotenv from "dotenv" 
+import dotenv from "dotenv"
+import connectDB from "./db/index.js";
+import {app} from './app.js'
+
 dotenv.config({
     path:"./env"
 })
 //also change line of in packages.json "dev": "nodemon src/index.js",
 
 
- 
-
-
-import connectDB from "./db/index.js";
-connectDB();
+//if connection is set then app listen on port
+connectDB()
+.then(()=>{
+    app.listen(process.env.PORT || 8000, ()=>{
+        console.log("serrver is runing");
+        
+    })
+})
+.catch((err)=>{
+    console.log("mogoose db connection failed",err);
+});
 
 /*
  arrow function with iffi or immadiate invoke function`()`
