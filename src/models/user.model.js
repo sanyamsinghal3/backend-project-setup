@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -23,16 +23,18 @@ const userSchema = new Schema({
         trime:true,
     },
     avatar:{
-        type:string, // cloudnary url
+        type:String, 
         required:true,
     },
     coverImage:{
         type:String,
     },
-    watchHistory:[{
-        type:Schema.Types.ObjectId,
-        ref:Video
-    }],
+    watchHistory: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Video"
+        }
+    ],
     "password":{
         type:String,
         required:[true,'password is required']
@@ -45,7 +47,7 @@ const userSchema = new Schema({
 // used Hooks featur
 userSchema.pre("save",async function(next) {
     if (!this.isModified("password")) return next();
-    this.password=bcrypt.hash(this.password,10);
+    this.password=await bcrypt.hash(this.password,10);
     next();
 })
 
@@ -56,14 +58,14 @@ userSchema.methods.isPasswordCorrect = async function(password){
 // 2nd methods for jwt token
 userSchema.methods.generateAccessToken=function(){
     jwt.sign(
-    {
-        _id:this._id,
-        emial:this.email,
-        fullName:this.fullName
-    },
-    process.env.ACCESS_TOKEN_SECRET,{
-        expiresIn:process.env.ACCESS_TOKEN_EXPIRY
-    }
+        {
+            _id:this._id,
+            emial:this.email,
+            fullName:this.fullName
+        },
+        process.env.ACCESS_TOKEN_SECRET,{
+            expiresIn:process.env.ACCESS_TOKEN_EXPIRY
+        }
     )
 }
 

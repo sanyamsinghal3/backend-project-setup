@@ -31,6 +31,7 @@ const asyncHandler = (fn) => async(req,res,next) => {
 } */
 
 // 2nd method to handle req res
+//use case this file or fucntion is return promise for a method
 const asyncHandler = (requestHandler) => {
     return (req, res, next) => {
         Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err))
