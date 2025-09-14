@@ -27,7 +27,10 @@
     -> Check User exit or not, import user model
     -> Upload coverImage and Avatar
     -> Inser User datra into DB
-
+* login function implementation in usercontroller with jwt.
+* don't use capital leeter to define variable becoz moongoose have predifined capital letter to define varidable.
+* creare seprate function to generatre access token and refresh token in userControoler for login.
+* middleware work in routes 
 
 mongoose.connect('mongodb://127*.0.0.1:27017/node-crud').then(() => {
     console.log('Connected to MongoDB');

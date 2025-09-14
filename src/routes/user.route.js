@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { registerUser } from "../controllers/user.controller.js";
-import {upload} from "../middlewares/multer.middleware.js"
-
+import { registerUser, loginUser, logOutUser } from "../controllers/user.controller.js";
+import {upload} from "../middlewares/multer.middleware.js";
+import {verifyJWT} from "../middlewares/logoutAuth.middleware.js";
 const router = Router();
 //router.route("/register").post(registerUser) // without helper
 //router.route("/register").post(upload.filds,registerUser) //with helper smallForm
@@ -19,7 +19,9 @@ router.route("/register").post(
     ]),
     registerUser)   // with helper
 
-router.route("/login").post(registerUser)
+router.route("/login").post(loginUser);
 
+//secured routes // verifyJWT is middleware, first middleware works then main function call
+router.route("/logout").post(verifyJWT,logOutUser);
 
 export default router;
